@@ -35,14 +35,19 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Edit users','url'=>['/users/index'],'visible'=> !Yii::$app->user->isGuest && Yii::$app->user->identity->role==='admin'],
+            ['label' => 'Edit operators','url'=>['/operators/index'],'visible'=> !Yii::$app->user->isGuest && Yii::$app->user->identity->role==='admin'],
+
+            ['label' => 'Work window','url'=>['/site/operator'],'visible'=> !Yii::$app->user->isGuest && Yii::$app->user->identity->role==='operator'],
+            ['label' => 'Terminal', 'url' => ['/site/terminal'],'visible'=>Yii::$app->user->isGuest],
+
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+
+                    ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
@@ -55,6 +60,9 @@ AppAsset::register($this);
             )
         ],
     ]);
+
+
+
     NavBar::end();
     ?>
 
@@ -69,7 +77,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; EQueue <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
@@ -79,3 +87,4 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+
